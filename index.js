@@ -1,5 +1,7 @@
 const $ = require('jquery')
 const mm = require('music-metadata')
+let songData = {path:[], title:[]}
+let audioPlayer = $('audio').get(0)
 
 function chooseMusic(){
     $('input').click()
@@ -12,17 +14,33 @@ function musicSelected(){
     for(let i = 0; i<files.length; i++){
         let {path} = files[i]
         mm.parseFile(path, {native:true}).then(metadata =>{
-            console.log(metadata.common.title, metadata.common.artist, metadata.format.duration)
+            songData.path[i] = path
+            songData.title[i] = metadata.common.title
 
             let songRow = `
-            <tr>
+            <tr ondblclick="playSong(${i})">
                 <td>${metadata.common.title}</td>
                 <td>${metadata.common.artist}</td>
-                <td>${metadata.format.duration}</td>
+                <td>${secondsToTime(metadata.format.duration)}</td>
             </tr>
             `
 
             $('#table-body').append(songRow)
+            
         })
     }
+}
+
+function playSong(index){
+audioPlayer.src = songData.path[index]
+audioPlayer.load()
+audioPlayer.play()
+}
+
+function secondsToTime(t) {
+    return padZero(parseInt((t / (60)) % 60)) + ":" + 
+           padZero(parseInt((t) % 60));
+  }
+function padZero(v) {
+return (v < 10) ? "0" + v : v;
 }
