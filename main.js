@@ -1,8 +1,9 @@
 const electron = require('electron')
 
-const {app, BrowserWindow, Tray, Menu} = electron
+const {app, BrowserWindow, Tray, Menu, ipcMain, Notification} = electron
 let win
 let tray
+let notification
 
 app.on('ready', ()=>{
     if(process.platform=='darwin'){
@@ -51,4 +52,16 @@ app.on('ready', ()=>{
     win.on('blur', ()=>{
         win.hide()
     })
+})
+
+
+ipcMain.on('playing', (event, song)=>{
+    if (Notification.isSupported()){
+        notification  = new Notification({
+            title: "Now Playing",
+            body: song,
+            silent: true
+        })
+        notification.show()
+    }
 })
