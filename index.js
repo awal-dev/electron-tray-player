@@ -43,6 +43,7 @@ function playSong(index){
     $('h4').text(songData.title[index])
     updatePlayButton()
     timer = setInterval(updateTime, 1000)
+    songData = {path:[], title:[]}
 }
 
 
@@ -69,6 +70,18 @@ function playPrevious(){
     currentIndex--
     if(currentIndex<0)currentIndex = songData.path.length - 1
     playSong(currentIndex)
+}
+
+function clearPlaylist(){
+    clearInterval(timer)
+    $('#time-left').text('00:00')
+    $('#total-time').text('00:00')
+    $('#table-body').html('')
+    audioPlayer.pause()
+    audioPlayer.src = ''
+    currentIndex = 0
+    playing = false
+    $('h4').text('')
 }
 
 function updateTime(){
