@@ -82,6 +82,7 @@ function clearPlaylist(){
     currentIndex = 0
     playing = false
     $('h4').text('')
+    updatePlayButton()
 }
 
 function updateTime(){
