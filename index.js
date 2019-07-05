@@ -3,6 +3,7 @@ const mm = require('music-metadata')
 let songData = {path:[], title:[]}
 let audioPlayer = $('audio').get(0)
 let playing = false
+let currentIndex = 0
 
 function chooseMusic(){
     $('input').click()
@@ -34,6 +35,7 @@ function musicSelected(){
 
 function playSong(index){
     audioPlayer.src = songData.path[index]
+    currentIndex = index
     audioPlayer.load()
     audioPlayer.play()
     playing = true
@@ -51,6 +53,18 @@ function play(){
         playing = true
     }
     updatePlayButton()
+}
+
+function playNext(){
+    currentIndex++
+    if(currentIndex>=songData.path.length)currentIndex=0
+    playSong(currentIndex)
+}
+
+function playPrevious(){
+    currentIndex--
+    if(currentIndex<0)currentIndex = songData.path.length - 1
+    playSong(currentIndex)
 }
 
 function updatePlayButton(){
