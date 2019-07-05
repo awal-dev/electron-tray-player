@@ -2,6 +2,7 @@ const $ = require('jquery')
 const mm = require('music-metadata')
 let songData = {path:[], title:[]}
 let audioPlayer = $('audio').get(0)
+let playing = false
 
 function chooseMusic(){
     $('input').click()
@@ -32,10 +33,35 @@ function musicSelected(){
 }
 
 function playSong(index){
-audioPlayer.src = songData.path[index]
-audioPlayer.load()
-audioPlayer.play()
-$('h4').text(songData.title[index])
+    audioPlayer.src = songData.path[index]
+    audioPlayer.load()
+    audioPlayer.play()
+    playing = true
+    $('h4').text(songData.title[index])
+    updatePlayButton()
+}
+
+
+function play(){
+    if(playing){
+        audioPlayer.pause()
+        playing = false
+    }else{
+        audioPlayer.play()
+        playing = true
+    }
+    updatePlayButton()
+}
+
+function updatePlayButton(){
+    let playIcon = $('#play-button span')
+    if(playing){
+        playIcon.removeClass('icon-play')
+        playIcon.addClass('icon-pause')
+    }else{
+        playIcon.removeClass('icon-pause')
+        playIcon.addClass('icon-play')
+    }
 }
 
 function secondsToTime(t) {
