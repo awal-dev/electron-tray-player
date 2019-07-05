@@ -18,15 +18,26 @@ app.on('ready', ()=>{
         resizable: false,
         skipTaskbar: true
     })
-
+    win.hide()
     win.loadFile('index.html')
     tray = new Tray('images/iconTemplate.png')
 
 
-    tray.on('click', ()=>{
+    tray.on('click', (event, bounds)=>{
+        let {x, y} = bounds
+        let { width, height} = win.getBounds()
         if(win.isVisible()){
             win.hide()
         }else{
+            if(process.platform!='darwin'){
+                y = y - height
+            }
+            win.setBounds({
+                x: x - width/2,
+                y,
+                width,
+                height
+            })
             win.show()
         }
     })
