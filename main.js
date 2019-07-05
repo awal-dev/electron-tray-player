@@ -1,6 +1,6 @@
 const electron = require('electron')
 
-const {app, BrowserWindow} = electron
+const {app, BrowserWindow, Tray} = electron
 let win
 
 app.on('ready', ()=>{
@@ -13,4 +13,14 @@ app.on('ready', ()=>{
     })
 
     win.loadFile('index.html')
+    const tray = new Tray('images/iconTemplate.png')
+
+
+    tray.on('click', ()=>{
+        if(win.isVisible()){
+            win.hide()
+        }else{
+            win.show()
+        }
+    })
 })
