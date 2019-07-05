@@ -35,6 +35,7 @@ function playSong(index){
 audioPlayer.src = songData.path[index]
 audioPlayer.load()
 audioPlayer.play()
+$('h4').text(songData.title[index])
 }
 
 function secondsToTime(t) {
