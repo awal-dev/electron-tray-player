@@ -1,6 +1,6 @@
 const electron = require('electron')
 
-const {app, BrowserWindow, Tray} = electron
+const {app, BrowserWindow, Tray, Menu} = electron
 let win
 let tray
 
@@ -21,7 +21,7 @@ app.on('ready', ()=>{
     win.hide()
     win.loadFile('index.html')
     tray = new Tray('images/iconTemplate.png')
-
+    tray.setToolTip('Tray Music')
 
     tray.on('click', (event, bounds)=>{
         let {x, y} = bounds
@@ -40,6 +40,12 @@ app.on('ready', ()=>{
             })
             win.show()
         }
+    })
+
+    tray.on('right-click', ()=>{
+        let template  = [{role: 'quit'}]
+        const menu = Menu.buildFromTemplate(template)
+        tray.popUpContextMenu(menu)
     })
 
     win.on('blur', ()=>{
